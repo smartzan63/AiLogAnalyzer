@@ -44,12 +44,14 @@ public class ConfigurationService(
             var settings = new AppConfig();
             _configurationBuilder
                 .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile(_fileProvider,BaseConfigFile, optional: false, reloadOnChange: true)
-                .AddJsonFile(_fileProvider,$"{BaseConfigFileName}.{_environment}.json", optional: true, reloadOnChange: true);
+                .AddJsonFile(_fileProvider, BaseConfigFile, optional: false, reloadOnChange: true)
+                .AddJsonFile(_fileProvider, $"{BaseConfigFileName}.{_environment}.json", optional: true,
+                    reloadOnChange: true);
 
             if (fileSystem.File.Exists(UserSettingsFilePath))
             {
-                _configurationBuilder.AddJsonFile(_fileProvider, UserSettingsFile, optional: true, reloadOnChange: true);
+                _configurationBuilder.AddJsonFile(_fileProvider, UserSettingsFile, optional: true,
+                    reloadOnChange: true);
             }
 
             var config = _configurationBuilder.Build();

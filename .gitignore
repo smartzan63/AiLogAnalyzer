@@ -59,3 +59,11 @@ appsettings.Development.json
 ._*
 .Spotlight-V100
 .Trashes
+
+# Exclude all coverage report files
+Code/coverage-report/
+
+# Exclude all test result files
+**/TestResults/
+*.trx
+*.cobertura.xml
