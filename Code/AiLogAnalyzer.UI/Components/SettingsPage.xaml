@@ -1,0 +1,147 @@
+﻿<Page
+    mc:Ignorable="d"
+    x:Class="AiLogAnalyzer.UI.Components.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Padding="10" Spacing="10">
+            <TextBlock
+                FontSize="24"
+                HorizontalAlignment="Center"
+                Text="Settings" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--  Main Key  -->
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="Main Key:"
+                    VerticalAlignment="Center" />
+                <ComboBox
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Width="280"
+                    x:Name="cmbMainKey" />
+
+                <!--  Modifier Key 1  -->
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Margin="0,5,0,0"
+                    Text="Modifier Key 1:"
+                    VerticalAlignment="Center" />
+                <ComboBox
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="0,5,0,0"
+                    Width="280"
+                    x:Name="cmbModifierKey1" />
+
+                <!--  Modifier Key 2  -->
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Margin="0,5,0,0"
+                    Text="Modifier Key 2:"
+                    VerticalAlignment="Center" />
+                <ComboBox
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Margin="0,5,0,0"
+                    Width="280"
+                    x:Name="cmbModifierKey2" />
+
+                <!--  API Key  -->
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="3"
+                    Margin="0,5,0,0"
+                    Text="API Key:"
+                    VerticalAlignment="Center" />
+                <StackPanel
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    Margin="0,5,0,0"
+                    Orientation="Horizontal">
+                    <PasswordBox Width="200" x:Name="txtApiKey" />
+                    <Button
+                        Click="BtnShowApiKey_Click"
+                        Content="Show"
+                        Margin="10,0,0,0"
+                        Width="70"
+                        x:Name="btnShowApiKey" />
+                </StackPanel>
+
+                <!--  Prompt  -->
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="4"
+                    Margin="0,5,0,0"
+                    Text="Prompt:"
+                    VerticalAlignment="Center" />
+                <TextBox
+                    AcceptsReturn="True"
+                    Grid.Column="1"
+                    Grid.Row="4"
+                    Height="260"
+                    HorizontalAlignment="Left"
+                    Margin="0,5,0,0"
+                    TextWrapping="Wrap"
+                    Width="280"
+                    x:Name="txtPrompt" />
+
+                <!--  AiSource  -->
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="5"
+                    Margin="0,5,0,0"
+                    Text="AI Source:"
+                    VerticalAlignment="Center" />
+                <ComboBox
+                    Grid.Column="1"
+                    Grid.Row="5"
+                    Margin="0,5,0,0"
+                    Width="280"
+                    x:Name="cmbAiSource" />
+
+                <!--  Save and Cancel Buttons  -->
+                <StackPanel
+                    Grid.Column="1"
+                    Grid.Row="7"
+                    HorizontalAlignment="Right"
+                    Margin="15"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <Button
+                        Click="BtnSave_Click"
+                        Content="Save"
+                        Width="75"
+                        x:Name="btnSave" />
+                    <Button
+                        Click="BtnCancel_Click"
+                        Content="Cancel"
+                        Width="75"
+                        x:Name="btnCancel" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "AiLogAnalyzer (Unpackaged)": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    }
+  }
+}

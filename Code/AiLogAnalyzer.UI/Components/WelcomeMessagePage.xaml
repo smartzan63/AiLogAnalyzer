@@ -1,0 +1,34 @@
+<Page
+    mc:Ignorable="d"
+    x:Class="AiLogAnalyzer.UI.Components.WelcomeMessagePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Background="Black">
+        <StackPanel
+            HorizontalAlignment="Center"
+            Margin="0"
+            VerticalAlignment="Center">
+            <TextBlock
+                FontSize="34"
+                Foreground="White"
+                Margin="0,0,0,4"
+                Text="AI Log Analyzer v0.1"
+                TextAlignment="Center" />
+            <Image
+                Height="360"
+                Source="ms-appx:///Resources/Welcome.png"
+                Stretch="UniformToFill"
+                Width="380" />
+            <TextBlock
+                FontSize="34"
+                Foreground="White"
+                Margin="0,4,0,0"
+                Text="Starting in 1..."
+                TextAlignment="Center"
+                x:Name="TimerTextBlock" />
+        </StackPanel>
+    </Grid>
+</Page>

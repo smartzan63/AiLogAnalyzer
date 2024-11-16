@@ -1,0 +1,61 @@
+﻿# Build Folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+.vscode/
+
+# User-specific Files
+*.user
+*.suo
+*.userosscache
+*.userprefs
+
+# Logs
+*.log
+logs/
+
+# Temporary Files
+*.tmp
+*.temp
+*.pid
+*.seed
+*.err
+*.orig
+
+# Windows-specific Files
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# DotNet
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Rider/JetBrains IDE
+.idea/
+*.iml
+out/
+*.ipr
+*.iws
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Generated Files
+*.g.*
+*.generated.*
+
+# Application Configuration Files
+userSettings.json
+appsettings.Development.json
+
+# OS Generated Files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
