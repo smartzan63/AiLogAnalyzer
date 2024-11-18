@@ -1,43 +1,36 @@
-﻿using System.IO.Abstractions;
-using AiLogAnalyzer.UI.Components;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-
-namespace AiLogAnalyzer.UI;
+﻿namespace AiLogAnalyzer.UI;
 
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics;
-using AiLogAnalyzer.Core.Services;
-using AiLogAnalyzer.UI.Managers;
-using AiLogAnalyzer.Core;
-using AiLogAnalyzer.Core.Configuration;
-using AiLogAnalyzer.UI.Utility;
+using Managers;
+using Components;
+using Core;
+using Core.Services;
+using Utility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.IO.Abstractions;
+using Microsoft.Extensions.Configuration;
 
 public partial class App : Application
 {
-    [DllImport("user32.dll")]
-    private static extern bool SetProcessDPIAware();
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetProcessDPIAware();
 
     private static readonly Mutex Mutex = new(true, "{A0C2D0FE-CE9F-4E74-BBDF-3EFC8B3B28D3}");
     public static App Instance { get; private set; }
-
     public readonly IHost Host;
-
     public HotKeyHandler HotKeyHandler { get; set; } = null!;
-
     private static Window WelcomeWindow { get; set; }
     public static Window SettingsWindow { get; private set; }
-
     public static Window ChatWindow { get; private set; }
-
     private TrayIconManager _trayIconManager;
 
     public App()
@@ -47,7 +40,7 @@ public partial class App : Application
         Log.Info("Starting application...");
         try
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Instance = this;
             Host = CreateHostBuilder().Build();
         }
@@ -77,14 +70,13 @@ public partial class App : Application
 
             WindowHelper.CustomizeTitleBar(appWindow);
             WindowHelper.CenterWindowOnScreen(appWindow);
-
-            ChatWindow.Activate();
         }
         else
         {
             Log.Info("Main window is already open, focusing on it");
-            ChatWindow.Activate();
         }
+
+        ChatWindow.Activate();
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
@@ -111,7 +103,7 @@ public partial class App : Application
                 closeButtonText: "OK",
                 xamlRoot: WelcomeWindow.Content.XamlRoot
             );
-            Application.Current.Exit();
+            Current.Exit();
 
             return;
         }
@@ -126,18 +118,17 @@ public partial class App : Application
 
         try
         {
-            if (string.IsNullOrEmpty(appConfig.GeneralSettings.OpenAiSettings.ApiKey))
-            {
-                Log.Warning("OpenAI API key is missing.");
-                var result = await WindowHelper.ShowYesNoDialogAsync(
-                    WelcomeWindow.Content.XamlRoot,
-                    content: "OpenAI API key is not set. Do you want to open settings and set the key?",
-                    title: "Missing API Key");
+            if (!string.IsNullOrEmpty(appConfig.GeneralSettings.OpenAiSettings.ApiKey)) return;
+            Log.Warning("OpenAI API key is missing.");
 
-                if (result == ContentDialogResult.Primary)
-                {
-                    OpenSettingsWindow();
-                }
+            var result = await WindowHelper.ShowYesNoDialogAsync(
+                WelcomeWindow.Content.XamlRoot,
+                content: "OpenAI API key is not set. Do you want to open settings and set the key?",
+                title: "Missing API Key");
+
+            if (result == ContentDialogResult.Primary)
+            {
+                OpenSettingsWindow();
             }
         }
         catch (Exception ex)
@@ -183,7 +174,7 @@ public partial class App : Application
             };
 
             var appWindow = WelcomeWindow.AppWindow;
-            appWindow.Resize(new SizeInt32(480, 590));
+            appWindow.Resize(new SizeInt32(380, 490));
 
             var presenter = appWindow.Presenter as OverlappedPresenter;
             if (presenter != null)
@@ -192,6 +183,7 @@ public partial class App : Application
                 presenter.IsMinimizable = false;
                 presenter.IsMaximizable = false;
                 presenter.SetBorderAndTitleBar(false, false);
+                presenter.IsAlwaysOnTop = true;
             }
 
             WindowHelper.CenterWindowOnScreen(appWindow);
@@ -207,7 +199,7 @@ public partial class App : Application
     private void OnExitClick()
     {
         _trayIconManager.Dispose();
-        Application.Current.Exit();
+        Current.Exit();
     }
 
     private void OnSettingsClick()
@@ -229,7 +221,15 @@ public partial class App : Application
             };
 
             var appWindow = SettingsWindow.AppWindow;
-            appWindow.Resize(new SizeInt32(600, 750));
+            appWindow.Resize(new SizeInt32(460, 650));
+            
+            var presenter = appWindow.Presenter as OverlappedPresenter;
+            if (presenter != null)
+            {
+                presenter.IsResizable = false;
+                presenter.IsAlwaysOnTop = true;
+                presenter.IsMaximizable = false;
+            }
 
             WindowHelper.CustomizeTitleBar(appWindow);
             WindowHelper.CenterWindowOnScreen(appWindow);
@@ -252,7 +252,7 @@ public partial class App : Application
                 services.AddSingleton<ICryptoService, CryptoService>();
                 services.AddSingleton<IFileSystem, FileSystem>();
                 services.AddSingleton<SettingsManager>();
-                
+
                 services.AddSingleton<LogAnalysisServiceProvider>();
                 services.AddTransient<OllamaLogAnalysisService>();
                 services.AddTransient<OpenAiLogAnalysisService>();

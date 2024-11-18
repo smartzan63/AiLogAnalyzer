@@ -6,6 +6,6 @@ public sealed partial class DummyPage : Page
 {
     public DummyPage()
     {
-        this.InitializeComponent();
+        InitializeComponent();
     }
 }

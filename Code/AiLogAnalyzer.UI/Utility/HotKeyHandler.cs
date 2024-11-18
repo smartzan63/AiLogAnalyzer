@@ -3,10 +3,10 @@
 using System;
 using System.Runtime.InteropServices;
 using Windows.System;
-using AiLogAnalyzer.Core.Configuration;
-using AiLogAnalyzer.Core;
+using Core.Configuration;
+using Core;
 
-public sealed class HotKeyHandler : IDisposable
+public sealed partial class HotKeyHandler : IDisposable
 {
     public event Action HotKeyPressed;
 

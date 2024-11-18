@@ -1,24 +1,23 @@
+namespace AiLogAnalyzer.UI.Components;
+
 using System;
 using System.Linq;
 using Windows.System;
-using AiLogAnalyzer.Core;
-using AiLogAnalyzer.Core.Configuration;
-using AiLogAnalyzer.UI.Managers;
-using AiLogAnalyzer.UI.Utility;
+using Core;
+using Core.Configuration;
+using Managers;
+using Utility;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace AiLogAnalyzer.UI.Components;
-
-//TODO: Add settings for Ollama, now it is hardcoded or missing
 public sealed partial class SettingsPage : Page
 {
     private readonly AppConfig _appConfig;
 
     public SettingsPage(AppConfig appConfig)
     {
-        this.InitializeComponent();
+        InitializeComponent();
         _appConfig = appConfig;
         InitializeSettingsControls();
     }
@@ -29,7 +28,8 @@ public sealed partial class SettingsPage : Page
         {
             var listOfVirtualKeys = Enum.GetValues(typeof(VirtualKey)).Cast<VirtualKey>().Select(vk => vk.ToString())
                 .ToList();
-            var aiSources = Enum.GetValues(typeof(AiSource)).Cast<AiSource>().Select(source => source.ToString()).ToList();
+            var aiSources = Enum.GetValues(typeof(AiSource)).Cast<AiSource>().Select(source => source.ToString())
+                .ToList();
 
 
             cmbMainKey.ItemsSource = listOfVirtualKeys;
@@ -43,16 +43,19 @@ public sealed partial class SettingsPage : Page
             cmbAiSource.SelectedItem = _appConfig.GeneralSettings.AiSource.ToString();
 
             txtApiKey.Password = _appConfig.GeneralSettings.OpenAiSettings.ApiKey;
+            ollamaHost.Text = _appConfig.GeneralSettings.OllamaSettings.Host;
+
+            // We should check config 1st, and if it's empty or null, we should use fallback prompt
             txtPrompt.Text = string.IsNullOrEmpty(_appConfig.GeneralSettings.Prompt)
-                ? Prompts.WebViewLogAnalysisPrompt
-                : _appConfig.GeneralSettings.Prompt;
+                ? _appConfig.GeneralSettings.Prompt
+                : Prompts.WebViewLogAnalysisPrompt;
         }
         catch (Exception ex)
         {
             Log.Error($"An error occurred while initializing settings controls: {ex.Message}");
         }
     }
-    
+
     private void BtnShowApiKey_Click(object sender, RoutedEventArgs e)
     {
         if (txtApiKey.PasswordRevealMode == PasswordRevealMode.Hidden)
@@ -74,29 +77,28 @@ public sealed partial class SettingsPage : Page
             _appConfig.HotKeySettings.MainKey = cmbMainKey.SelectedItem.ToString();
             _appConfig.HotKeySettings.ModifierKey1 = cmbModifierKey1.SelectedItem.ToString();
             _appConfig.HotKeySettings.ModifierKey2 = cmbModifierKey2.SelectedItem.ToString();
-            _appConfig.GeneralSettings.AiSource = Enum.Parse<AiSource>(cmbAiSource.SelectedItem.ToString() ?? throw new InvalidOperationException() );
+            _appConfig.GeneralSettings.AiSource =
+                Enum.Parse<AiSource>(cmbAiSource.SelectedItem.ToString() ?? throw new InvalidOperationException());
 
             _appConfig.GeneralSettings.OpenAiSettings.ApiKey = txtApiKey.Password;
+            _appConfig.GeneralSettings.OllamaSettings.Host = ollamaHost.Text;
             _appConfig.GeneralSettings.Prompt = txtPrompt.Text;
 
-            var settingsManager = UI.App.Instance.Host.Services.GetRequiredService<SettingsManager>();
+            var settingsManager = App.Instance.Host.Services.GetRequiredService<SettingsManager>();
             settingsManager.SaveSettings(_appConfig);
-            
-            if (UI.App.ChatWindow != null)
-            {
-                UI.App.ChatWindow.Close();
-            }
-            
-            // settingsManager.UpdateAiService(UI.App.Instance.Host.Services, UI.App.ChatWindow, _appConfig.GeneralSettings.AiSource);
-            
-            UI.App.Instance.HotKeyHandler.Dispose();
-            UI.App.Instance.HotKeyHandler = new HotKeyHandler(_appConfig);
-            UI.App.Instance.HotKeyHandler.HotKeyPressed += UI.App.Instance.OnHotKeyPressed;
-            
-            await WindowHelper.ShowMessageDialogAsync(this.XamlRoot,"Settings saved", "Success");
-            
-            UI.App.SettingsWindow.Close();
 
+            if (App.ChatWindow != null)
+            {
+                App.ChatWindow.Close();
+            }
+
+            App.Instance.HotKeyHandler.Dispose();
+            App.Instance.HotKeyHandler = new HotKeyHandler(_appConfig);
+            App.Instance.HotKeyHandler.HotKeyPressed += App.Instance.OnHotKeyPressed;
+
+            await WindowHelper.ShowMessageDialogAsync(XamlRoot, "Settings saved", "Success");
+
+            App.SettingsWindow.Close();
         }
         catch (Exception ex)
         {
@@ -106,6 +108,6 @@ public sealed partial class SettingsPage : Page
 
     private void BtnCancel_Click(object sender, RoutedEventArgs e)
     {
-        UI.App.SettingsWindow.Close();
+        App.SettingsWindow.Close();
     }
 }

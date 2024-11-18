@@ -1,11 +1,8 @@
 ﻿namespace AiLogAnalyzer.UI.Managers;
 
-using System;
-using AiLogAnalyzer.Core.Configuration;
-using AiLogAnalyzer.Core.Services;
-using AiLogAnalyzer.UI.Utility;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
+using Core.Configuration;
+using Core.Services;
+using Utility;
 
 // TODO:
 // BUG: When OpenAI key is set for the first time, it's not propagated to the OpenAI service, so app needs to be restarted

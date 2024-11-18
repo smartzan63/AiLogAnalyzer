@@ -9,7 +9,7 @@ public sealed partial class WelcomeMessagePage : Page
 
     public WelcomeMessagePage()
     {
-        this.InitializeComponent();
+        InitializeComponent();
         StartAnimation(AnimationDurationMs);
     }
     
