@@ -1,11 +1,11 @@
-﻿using System.IO.Abstractions;
-using Microsoft.Extensions.Configuration;
-
-namespace Unit.Tests;
+﻿namespace Unit.Tests;
 
 using AiLogAnalyzer.Core.Configuration;
 using AiLogAnalyzer.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO.Abstractions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileProviders;
 
 [TestClass]
 public class LogAnalysisServiceProviderTests
@@ -22,10 +22,13 @@ public class LogAnalysisServiceProviderTests
 
         services.AddTransient<OpenAiLogAnalysisService>();
         services.AddTransient<OllamaLogAnalysisService>();
+        services.AddSingleton<IRegistryService, RegistryService>();
+        services.AddSingleton<ICryptoService, CryptoService>();
         
         services.AddSingleton<IConfigurationService, ConfigurationService>();
         services.AddSingleton<IConfigurationBuilder, ConfigurationBuilder>();
         services.AddSingleton<IFileSystem, FileSystem>();
+        services.AddSingleton<IFileProvider>(new PhysicalFileProvider(AppContext.BaseDirectory));
 
         services.AddSingleton<LogAnalysisServiceProvider>();
 

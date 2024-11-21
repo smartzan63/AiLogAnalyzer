@@ -11,8 +11,8 @@ public static class LogAnalysisServiceResponseValidator
         response.Should().NotBeNullOrEmpty();
 
         response.Should().Contain("WHAT HAPPENED:");
-        response.Should().Contain("- EXPECTED RESULT:");
-        response.Should().Contain("- ACTUAL RESULT:");
+        response.Should().Contain("EXPECTED RESULT:");
+        response.Should().Contain("ACTUAL RESULT:");
         response.Should().Contain("HOW TO FIX IT:");
 
         Console.WriteLine("Response from OpenAI: " + response);

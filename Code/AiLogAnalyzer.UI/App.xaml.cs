@@ -17,6 +17,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.IO.Abstractions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileProviders;
 
 public partial class App : Application
 {
@@ -251,6 +252,7 @@ public partial class App : Application
                 services.AddSingleton<IRegistryService, RegistryService>();
                 services.AddSingleton<ICryptoService, CryptoService>();
                 services.AddSingleton<IFileSystem, FileSystem>();
+                services.AddSingleton<IFileProvider>(new PhysicalFileProvider(AppContext.BaseDirectory));
                 services.AddSingleton<SettingsManager>();
 
                 services.AddSingleton<LogAnalysisServiceProvider>();

@@ -47,7 +47,6 @@ public class LogAnalysisServiceIntegrationTests
         LogAnalysisServiceResponseValidator.ValidateAdditionalResponse(result);
     }
 
-    [Ignore]
     [TestMethod]
     public async Task SendInitialMessage_ReturnsResponseFromOllama()
     {
@@ -58,7 +57,6 @@ public class LogAnalysisServiceIntegrationTests
         LogAnalysisServiceResponseValidator.ValidateBasicResponse(result);
     }
 
-    [Ignore]
     [TestMethod]
     public async Task SendAdditionalMessage_ReturnsResponseFromOllama()
     {
