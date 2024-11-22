@@ -33,4 +33,13 @@
       <ProjectReference Include="..\Common.Tests\Common.Tests.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="TestData\DataCollector\file1.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataCollector\file2.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

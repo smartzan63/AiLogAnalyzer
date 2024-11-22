@@ -1,8 +1,7 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Microsoft.Win32;
+﻿namespace AiLogAnalyzer.Core.Services;
 
-namespace AiLogAnalyzer.Core.Services;
+using System.Security.Cryptography;
+using System.Text;
 
 public class CryptoService(IRegistryService registryService) : ICryptoService
 {

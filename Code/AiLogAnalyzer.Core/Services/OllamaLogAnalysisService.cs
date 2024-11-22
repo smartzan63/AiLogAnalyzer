@@ -1,10 +1,9 @@
-﻿using AiLogAnalyzer.Core.Configuration;
-using Microsoft.Extensions.Options;
+﻿namespace AiLogAnalyzer.Core.Services;
+
+using Configuration;
 using OllamaSharp;
 using OllamaSharp.Models;
 using OllamaSharp.Models.Chat;
-
-namespace AiLogAnalyzer.Core.Services;
 
 public sealed class OllamaLogAnalysisService : BaseLogAnalysisService
 {
