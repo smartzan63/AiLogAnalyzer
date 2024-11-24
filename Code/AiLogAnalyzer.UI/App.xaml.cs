@@ -21,11 +21,9 @@ using Microsoft.Extensions.FileProviders;
 
 public partial class App : Application
 {
-    [DllImport("user32.dll")]
-    private static extern bool SetProcessDPIAware();
-
-    [DllImport("user32.dll")]
-    private static extern int GetDpiForSystem();
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetProcessDPIAware();
 
     private static readonly Mutex Mutex = new(true, "{A0C2D0FE-CE9F-4E74-BBDF-3EFC8B3B28D3}");
     public static App Instance { get; private set; }
@@ -39,7 +37,6 @@ public partial class App : Application
     public App()
     {
         SetProcessDPIAware();
-        SetDpiAwareness();
 
         Log.Info("Starting application...");
         try
@@ -52,15 +49,6 @@ public partial class App : Application
         {
             Log.Error(ex.Message);
         }
-    }
-    
-    private static void SetDpiAwareness()
-    {
-        var dpi = GetDpiForSystem();
-        var scalingFactor = dpi / 96.0f;
-
-        Log.Info($"System DPI: {dpi}");
-        Log.Info($"Scaling Factor: {scalingFactor}");
     }
 
     public void OnHotKeyPressed()
@@ -77,10 +65,9 @@ public partial class App : Application
                 Title = "Log Analyzer",
                 Content = new ChatPage(logAnalysisService, HotKeyHandler)
             };
-            
-            WindowHelper.SetDpiAwareWindow(ChatWindow, 1200, 900);
 
-            var appWindow = WindowHelper.GetAppWindow(ChatWindow);
+            var appWindow = ChatWindow.AppWindow;
+            appWindow.Resize(new SizeInt32(1200, 900));
 
             WindowHelper.CustomizeTitleBar(appWindow);
             WindowHelper.CenterWindowOnScreen(appWindow);
@@ -233,10 +220,9 @@ public partial class App : Application
                 Title = "Settings",
                 Content = new SettingsPage(appConfig)
             };
-            
-            WindowHelper.SetDpiAwareWindow(SettingsWindow, 460, 650);
 
-            var appWindow = WindowHelper.GetAppWindow(WelcomeWindow);
+            var appWindow = SettingsWindow.AppWindow;
+            appWindow.Resize(new SizeInt32(460, 650));
             
             var presenter = appWindow.Presenter as OverlappedPresenter;
             if (presenter != null)
