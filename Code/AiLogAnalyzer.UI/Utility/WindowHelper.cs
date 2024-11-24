@@ -1,4 +1,6 @@
-﻿using AiLogAnalyzer.UI.Components;
+﻿using System.Runtime.InteropServices;
+using AiLogAnalyzer.UI.Components;
+using WinRT.Interop;
 
 namespace AiLogAnalyzer.UI.Utility;
 
@@ -13,6 +15,29 @@ using Microsoft.UI.Xaml.Controls;
 
 public static class WindowHelper
 {
+    [DllImport("user32.dll")]
+    private static extern int GetDpiForWindow(IntPtr hWnd);
+
+    public static void SetDpiAwareWindow(Window window, int width, int height)
+    {
+        var windowHandle = WindowNative.GetWindowHandle(window);
+        var dpi = GetDpiForWindow(windowHandle);
+        var scalingFactor = dpi / 96.0f;
+
+        var scaledWidth = (int)(width * scalingFactor);
+        var scaledHeight = (int)(height * scalingFactor);
+
+        var appWindow = GetAppWindow(window);
+        appWindow.Resize(new SizeInt32(scaledWidth, scaledHeight));
+    }
+
+    public static AppWindow GetAppWindow(Window window)
+    {
+        var windowHandle = WindowNative.GetWindowHandle(window);
+        var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
+        return AppWindow.GetFromWindowId(windowId);
+    }
+
     public static async Task ShowMessageDialogAsync(XamlRoot xamlRoot, string content, string title)
     {
         var dialog = new ContentDialog
