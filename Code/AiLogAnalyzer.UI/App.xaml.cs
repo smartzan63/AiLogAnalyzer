@@ -4,7 +4,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Graphics;
 using Managers;
 using Components;
 using Core;
@@ -21,9 +20,8 @@ using Microsoft.Extensions.FileProviders;
 
 public partial class App : Application
 {
-    [LibraryImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool SetProcessDPIAware();
+    [DllImport("User32.dll")]
+    private static extern bool SetProcessDPIAware();
 
     private static readonly Mutex Mutex = new(true, "{A0C2D0FE-CE9F-4E74-BBDF-3EFC8B3B28D3}");
     public static App Instance { get; private set; }
@@ -67,8 +65,8 @@ public partial class App : Application
             };
 
             var appWindow = ChatWindow.AppWindow;
-            appWindow.Resize(new SizeInt32(1200, 900));
 
+            WindowHelper.AdjustWindowSizeToScale(ChatWindow, 1200, 900);
             WindowHelper.CustomizeTitleBar(appWindow);
             WindowHelper.CenterWindowOnScreen(appWindow);
         }
@@ -175,7 +173,7 @@ public partial class App : Application
             };
 
             var appWindow = WelcomeWindow.AppWindow;
-            appWindow.Resize(new SizeInt32(380, 490));
+            WindowHelper.AdjustWindowSizeToScale(WelcomeWindow, 380, 490);
 
             var presenter = appWindow.Presenter as OverlappedPresenter;
             if (presenter != null)
@@ -222,8 +220,9 @@ public partial class App : Application
             };
 
             var appWindow = SettingsWindow.AppWindow;
-            appWindow.Resize(new SizeInt32(460, 650));
-            
+
+            WindowHelper.AdjustWindowSizeToScale(SettingsWindow, 460, 650);
+
             var presenter = appWindow.Presenter as OverlappedPresenter;
             if (presenter != null)
             {
