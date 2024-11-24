@@ -1,6 +1,4 @@
-﻿using AiLogAnalyzer.UI.Components;
-
-namespace AiLogAnalyzer.UI.Utility;
+﻿namespace AiLogAnalyzer.UI.Utility;
 
 using System;
 using System.Threading.Tasks;
@@ -10,9 +8,26 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Core;
+using Components;
 
 public static class WindowHelper
 {
+    public static void AdjustWindowSizeToScale(Window window, int baseWidth, int baseHeight)
+    {
+        var appWindow = window.AppWindow;
+
+        var displayArea = DisplayArea.GetFromWindowId(appWindow.Id, DisplayAreaFallback.Primary);
+        var rasterizationScale = displayArea.WorkArea.Width / System.Windows.SystemParameters.PrimaryScreenWidth;
+
+        Log.Debug($"Showing window {window.Content.GetType().Name} with rasterization scale: {rasterizationScale}");
+
+        var scaledWidth = (int)(baseWidth * rasterizationScale);
+        var scaledHeight = (int)(baseHeight * rasterizationScale);
+
+        appWindow.Resize(new SizeInt32(scaledWidth, scaledHeight));
+    }
+
     public static async Task ShowMessageDialogAsync(XamlRoot xamlRoot, string content, string title)
     {
         var dialog = new ContentDialog
@@ -80,7 +95,6 @@ public static class WindowHelper
     public static async Task<ContentDialogResult> ShowNotificationAsync(string title, string content,
         string closeButtonText, XamlRoot xamlRoot = null)
     {
-        ContentDialog dialog;
         Window tempWindow = null;
 
         if (xamlRoot == null)
@@ -99,7 +113,7 @@ public static class WindowHelper
             xamlRoot = tempWindow.Content.XamlRoot;
         }
 
-        dialog = new ContentDialog
+        var dialog = new ContentDialog
         {
             Title = title,
             Content = content,
