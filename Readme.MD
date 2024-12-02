@@ -5,8 +5,6 @@
 
 The application monitors hotkeys, retrieves clipboard content, and interacts with AI models for processing. It's modern, flexible, and tailored for high productivity.
 
----
-
 ## Features
 
 - **AI-Powered Log Analysis**: Automatically detect patterns, summarize logs, and provide actionable insights using OpenAI or Ollama models. Simply copy the log text, and let the AI handle the rest.
@@ -15,7 +13,6 @@ The application monitors hotkeys, retrieves clipboard content, and interacts wit
 - **Intuitive UI**: A modern, responsive interface built with WinUI3 for easy interaction and analysis visualization.
 - **Customizable Settings**: Adjust AI model preferences, configure hotkeys, and personalize log parsing options to suit your workflow.
 
----
 ## Roadmap
 
 Here's what I plan to add in the future:
@@ -36,7 +33,6 @@ Here's what I plan to add in the future:
 ### Other
 - [ ] Integrate the tool into the Microsoft Power Toys repo.
 - [ ] Explore integration with other log management tools (e.g. ELK, Datadog).
----
 
 ## Known Issues / Considerations
 
@@ -50,10 +46,10 @@ Here's what I plan to add in the future:
 ## Requirements
 Before you begin, ensure you have the following installed:
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- Windows 10 version 1809 (10.0.17763.0) or later
+- Windows 10 version 1903 (10.0.18362.0) or later
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) or [JetBrains Rider](https://www.jetbrains.com/rider/) with the **WinUI3** and **.NET Desktop Development** workloads
 
----
+While the application is expected to run on Windows 10 version 1903 (10.0.18362.0) or later, it has been primarily tested on Windows 11 x64
 
 ## Setup Instructions
 
@@ -81,8 +77,6 @@ This project uses `reportgenerator` to generate test coverage reports.
    ```
    Use the command `dotnet tool run reportgenerator` in scripts when running locally.
 
----
-
 ## Running Tests and Generating Reports
 
 1. **Run Tests with Coverage**:
@@ -94,8 +88,6 @@ This project uses `reportgenerator` to generate test coverage reports.
 2. **View HTML Report**:
    The HTML report is generated in the `Code\coverage-report` directory. The script will open the report in your default browser automatically.
 
----
-
 ## Contribution
 Feel free to contribute to this project by opening issues or submitting pull requests.
 
@@ -105,12 +97,8 @@ Feel free to contribute to this project by opening issues or submitting pull req
 4. Push the branch (`git push origin feature/YourFeature`).
 5. Open a Pull Request.
 
----
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## Contact
 For any inquiries or support, feel free to reach out:

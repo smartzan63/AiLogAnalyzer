@@ -12,7 +12,7 @@
 }
 
 function showAgentMessageWithHighlights(message) {
-    let html = marked.parse(DOMPurify.sanitize(message));
+    let html = marked.parse(message);
     let lastDiv = document.body.lastElementChild;
     
     if (lastDiv && lastDiv.classList.contains('agentMessage')) {

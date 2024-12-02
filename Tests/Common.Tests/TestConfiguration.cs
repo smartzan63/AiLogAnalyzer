@@ -10,7 +10,7 @@ public class TestConfiguration
     public static AppConfig GetAppConfig()
     {
         var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile("testsettings.json", optional: true)
             .AddUserSecrets<TestConfiguration>(optional: true)
             .Build();
 
